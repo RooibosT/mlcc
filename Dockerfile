@@ -1,11 +1,9 @@
-# Dockerfile (Ubuntu 18.04 + ROS Melodic 기반)
-# Ubuntu 18.04 LTS (Bionic Beaver) 기반 이미지 사용
+# Dockerfile (Ubuntu 18.04 + ROS Melodic)
+# Ubuntu 18.04 LTS (Bionic Beaver)
 FROM ubuntu:18.04
 
-# 컨테이너 내에서 업데이트 및 설치를 위한 환경 변수 설정
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 시스템 업데이트 및 기본 유틸리티 설치
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     build-essential \
@@ -28,8 +26,7 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # ----------------------------------------------------------------------------
-# ROS Melodic (ROS1) 설치
-# Ubuntu 18.04는 Melodic을 지원합니다.
+# ROS Melodic (ROS1)
 # ----------------------------------------------------------------------------
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
     apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 && \
@@ -46,7 +43,7 @@ RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main"
     rm -rf /var/lib/apt/lists/*
 
 # ----------------------------------------------------------------------------
-# Eigen 3.3.7 설치 (소스 컴파일)
+# Eigen 3.3.7
 # ----------------------------------------------------------------------------
 RUN wget -q https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.zip -O eigen-3.3.7.zip && \
     unzip eigen-3.3.7.zip && \
@@ -58,7 +55,7 @@ RUN wget -q https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.zip -O
     rm -rf eigen-3.3.7* eigen-3.3.7.zip
 
 # ----------------------------------------------------------------------------
-# OpenCV 3.4.14 설치 (소스 컴파일)
+# OpenCV 3.4.14
 # ----------------------------------------------------------------------------
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -102,7 +99,7 @@ RUN wget -q https://github.com/opencv/opencv/archive/3.4.14.zip -O opencv-3.4.14
     rm -rf opencv-3.4.14* opencv_contrib-3.4.14* opencv-3.4.14.zip opencv_contrib-3.4.14.zip
 
 # ----------------------------------------------------------------------------
-# Ceres Solver 1.14.0 설치 (소스 컴파일)
+# Ceres Solver 1.14.0
 # ----------------------------------------------------------------------------
 RUN wget -q http://ceres-solver.org/ceres-solver-1.14.0.tar.gz -O ceres-solver-1.14.0.tar.gz && \
     tar -xzf ceres-solver-1.14.0.tar.gz && \
@@ -124,9 +121,9 @@ RUN wget -q http://ceres-solver.org/ceres-solver-1.14.0.tar.gz -O ceres-solver-1
     rm -rf ceres-solver-1.14.0* ceres-solver-1.14.0.tar.gz
 
 # ----------------------------------------------------------------------------
-# 사용자 환경 설정
+# System env setting
 # ----------------------------------------------------------------------------
-WORKDIR /app
+WORKDIR /root
 
 # ROS 환경을 자동으로 source하도록 설정
 ENV SHELL=/bin/bash
